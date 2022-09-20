@@ -7,22 +7,35 @@
     <body>
         <a>회원가입 화면</a>
         {% if signup_success == False %}
-        <p>"아이디와 비밀번호를 다시 입력해주세요"</p>
+        <p>"회원정보를 다시 입력해주세요"</p>
+        {% endif %}
+        
+        {% if signup_check_id == False %}
+        <p>"아이디를 이메일 형식으로 다시 입력해주세요"</p>
         {% endif %}
 
         {% if signup_same == True %}
         <p>"아이디가 중복되었습니다. 다시 입력해주세요"</p>
         {% endif %}
 
+        {% if signup_same_pw == True %}
+        <p>"비밀번호를 재확인해주세요"</p>
+        {% endif %}
+
         {% if signup_success == True %}
         <p>"회원가입 완료"</p>
         <style> #signup_form { display : none } </style>
+        <button onclick="location.href = '/signin' " type="button">로그인하기</button>
         {% endif %}
 
         <form method="post" action="signup" id="signup_form">
-            ID : <input type="text" name="signup_id" placeholder="아이디를 입력해주세요" /><br />
-            PW : <input type="password" name="signup_pw" placeholder="비밀번호를 입력해주세요"/><br />
+            ID : <input type="text" name="signup_id" placeholder="이메일 형식의 아이디를 입력해주세요" /><br/>
+            PW : <input type="password" name="signup_pw" placeholder="비밀번호를 입력해주세요"/><br/>
+            pw 재확인 : <input type="password" name="signup_check_pw" placeholder="비밀번호를 다시 입력해주세요"/><br/>
+            이름 : <input type="text" name="signup_name" placeholder="이름을 입력해주세요" /><br />
+            닉네임 : <input type="text" name="signup_nickname" placeholder="닉네임을 입력해주세요" /><br />
             <button type="submit">signup</button>
-          </form>
+        </form>
     </body>
+
 </html>
