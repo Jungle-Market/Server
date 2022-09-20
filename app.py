@@ -7,10 +7,8 @@ market_db = db
 
 @app.route("/home")
 def home():
-    items = market_db.items.find()
-    for i in items:
-        print(i)
-    return render_template("home.html")
+    db_items = market_db.items.find()
+    return render_template("home.html",items=db_items)
 
 
 if __name__ == "__main__":
