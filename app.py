@@ -76,14 +76,15 @@ def file_upload():
     current_time = str(time.time()).replace('.','')
     if request.method == 'POST':
         uploaded_file = request.files["myfile"]
-        uploaded_title = request.form["title"]+current_time
+        uploaded_title = request.form["title"]
         uploaded_text = request.form["text"]
         uploaded_count = request.form["count"]
+        uploaded_url = "img/{}.jpeg".format(uploaded_title+current_time)
         uploaded_file.save(
-            "static/img/{}.jpeg".format(uploaded_title))
+            "static/"+uploaded_url)
         data = {'title': uploaded_title, 'user':"user",'count':int(uploaded_count),'text': uploaded_text,
-                'url': "img/{}.jpeg".format(uploaded_title), "comments": [{"":""}]}
-        db.register.insert_one(data)
+                'url': uploaded_url, "reviews": []}
+        db.items.insert_one(data)
         return render_template('register.html')
     else:
         return render_template('register.html', name="jinja_test")
