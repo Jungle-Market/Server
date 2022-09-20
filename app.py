@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, session
 from flask import request
 from flask import redirect
 import re
+import time
 
 from db import db
 market_db = db
@@ -69,6 +70,23 @@ def signup():
         else:
             market_db.users.insert_one({'id' : signup_id, 'pwd' : signup_pw, 'name' : signup_name, 'nickname' : signup_nickname})
             return render_template("signup.html", signup_success = True)
+
+@app.route('/register', methods=['POST', 'GET'])
+def file_upload():
+    current_time = str(time.time()).replace('.','')
+    if request.method == 'POST':
+        uploaded_file = request.files["myfile"]
+        uploaded_title = request.form["title"]+current_time
+        uploaded_text = request.form["text"]
+        uploaded_count = request.form["count"]
+        uploaded_file.save(
+            "static/img/{}.jpeg".format(uploaded_title))
+        data = {'title': uploaded_title, 'user':"user",'count':int(uploaded_count),'text': uploaded_text,
+                'url': "img/{}.jpeg".format(uploaded_title), "comments": [{"":""}]}
+        db.register.insert_one(data)
+        return render_template('register.html')
+    else:
+        return render_template('register.html', name="jinja_test")
 
 if __name__ == "__main__":
     app.run('0.0.0.0', port=5000, debug=True)
