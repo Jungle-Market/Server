@@ -3,9 +3,6 @@ from flask import request
 from flask import redirect
 
 from db import db
-from pymongo import MongoClient
-client = MongoClient('localhost', 27017)
-db = client.dbjunglemarket
 market_db = db
 
 app = Flask(__name__)
@@ -23,8 +20,6 @@ def main():
 def home():
     if "id" in session:
         items = market_db.items.find()
-        for i in items:
-            print(i)
         return render_template("home.html")
     else:
         return redirect(url_for('signin'))
