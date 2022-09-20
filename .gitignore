@@ -1,3 +1,10 @@
+/templates/image.html
+/templates/tailwind.html
+/templates/register_test.html
+/templates/home.html
+/static/
+*db.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
