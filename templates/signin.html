@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    
+  </head>
+  <body>
+    {% if login_success == False %}
+    <p>"로그인 실패 재시도 해주세요"</p>
+    {% endif %}
+    
+    <form method="post" action="signin">
+      ID : <input type="text" name="id" /><br />
+      PW : <input type="password" name="pw" /><br />
+      <button type="submit">로그인</button>
+    </form>
+    <button onclick="location.href = '/signup'" type="button">회원가입</button>
+  </body>
+</html>
