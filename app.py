@@ -31,6 +31,8 @@ def home():
 
 @app.route('/signin', methods=['POST', 'GET'])
 def signin():
+    db_items = market_db.items.find().sort([('_id', -1)]).limit(3)
+    
     if request.method == 'POST':
         id = request.form['id']
         pw = request.form['pw']
@@ -40,9 +42,9 @@ def signin():
             session['id'] = id
             return redirect(url_for('home'))
         else :
-            return render_template("signin.html", login_success = False)
+            return render_template("signin.html", login_success = False, items=db_items)
     else:
-        return render_template("signin.html")
+        return render_template("signin.html", items=db_items)
 
 
 @app.route('/logout')
