@@ -36,6 +36,7 @@ def signin():
         pw = request.form['pw']
         
         if market_db.users.find_one({'id' : id, 'pwd': pw}) :
+            session['nickname'] = market_db.users.find_one({'id': id})['nickname']
             session['id'] = id
             return redirect(url_for('home'))
         else :
