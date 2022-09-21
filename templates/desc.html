@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-cyan-300">
+    <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+      <div class="relative flex h-16 items-center justify-between">
+        <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+          <div class="flex flex-shrink-0 items-center">
+            <a href="../home">
+              <img class="hidden h-8 w-auto lg:block transition active:translate-y-1 active:translate-x-1" src={{
+                url_for('static',filename='img/test.jpg' ) }} />
+            </a>
+          </div>
+          <div class="flex items-center w-100">
+            <div class="text-xl font-semibold ml-6">
+              안녕하세요~ {{ session['nickname'] }}님! 당신의 아름다운 행동이 다른 동료를 웃게만듭니다.
+            </div>
+          </div>
+          <div class="hidden sm:ml-6 sm:block">
+            <div class="flex space-x-4 shadow-lg">
+              <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+              <a href="../register"
+                class="bg-red-500 text-white px-3 py-2 rounded-md text-sm font-semibold border-2 rounded-md border-red-200 transition active:bg-red-700 active:translate-y-1 active:translate-x-1"
+                aria-current="page">나눔하러 가기</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile menu, show/hide based on menu state. -->
+    <div class="sm:hidden" id="mobile-menu">
+      <div class="space-y-1 px-2 pt-2 pb-3">
+        <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+        <a href="#" class="bg-red-500 text-white block px-3 py-2 rounded-md text-base font-semibold"
+          aria-current="page">나눔하러 가기</a>
+      </div>
+    </div>
+  </nav>
+  <!-- <div class="container mx-auto max-w-7xl my-20 w-1/2">
+    <div class="grid grid-cols-1 ">
+      <h1>{{item}}</h1>
+      <h1>물품명 : {{item.title}}</h1>
+      <h1>작성자 : {{item.user}}</h1>
+      <h1>잔여수량 : {{item.count}}</h1>
+      <h1>내용 : {{item.text}}</h1>
+      <h1>url : {{item.url}}</h1>
+      <input type="text" name="review" id="company-website"
+      class="block w-full flex-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+      placeholder="댓글을 입력해주세요">
+      <h1>댓글 : {{item.reviews}}</h1>
+    </div>
+    <div class="flex items-center justify-center"></div>
+  </div> -->
+  <!-- <section class="container mx-auto max-w-7xl my-20 w-1/2" > -->
+  <div class="container px-6 py-10 mx-auto max-w-7xl my-20 w-1/2">
+    <h1 class="text-3xl font-semibold text-gray-800 capitalize lg:text-4xl dark:text-white">{{item.title}}</h1>
+    <div class="mt-8 lg:-mx-6 lg:flex lg:items-center">
+      <img class="object-cover w-full lg:mx-6 lg:w-1/2 rounded-xl h-72 lg:h-96"
+      src={{ url_for('static',filename=item.url) }}
+        alt="">
+
+      <div class="mt-6 lg:w-1/2 lg:mt-0 lg:mx-6 ">
+        <div class="flex items-center mt-6">
+          <img class="object-cover object-center w-10 h-10 rounded-full" src={{ url_for('static',filename=item.url) }}
+            alt="">
+
+          <div class="mx-4">
+            <h1 class="text-2xl text-gray-700 dark:text-gray-800">{{item.user}}</h1>
+          </div>
+        </div>
+        <!-- <p class="block mt-4 text-2xl font-semibold text-gray-800 hover:underline dark:text-white md:text-3xl">
+          {{item.title}}
+        </p> -->
+        <p class="block mt-3 text-2xl font-medium text-gray-600 dark:text-gray-300">
+          {{item.text}}
+        </p>
+        <p class="block mt-3 text-xl font-medium text-blue-800">
+          잔여수량 : {{item.count}}
+        </p>
+      </div>
+    </div>
+
+    <div style="max-width:700px; margin: 100px auto;">
+
+      <form class="flex items-center">   
+          <label for="voice-search" class="sr-only">입력</label>
+          <div class="relative w-full">
+              <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+                  <svg aria-hidden="true" class="w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path></svg>
+              </div>
+              <input type="text" id="voice-search" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search Mockups, Logos, Design Templates..." required="">
+              <button type="button" class="flex absolute inset-y-0 right-0 items-center pr-3">
+                  <svg aria-hidden="true" class="w-4 h-4 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7 4a3 3 0 016 0v4a3 3 0 11-6 0V4zm4 10.93A7.001 7.001 0 0017 8a1 1 0 10-2 0A5 5 0 015 8a1 1 0 00-2 0 7.001 7.001 0 006 6.93V17H6a1 1 0 100 2h8a1 1 0 100-2h-3v-2.07z" clip-rule="evenodd"></path></svg>
+              </button>
+          </div>
+          <button type="submit" class="inline-flex items-center py-2.5 px-3 ml-2 text-sm font-medium text-white bg-blue-700 border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+              <svg aria-hidden="true" class="mr-2 -ml-1 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>Search
+          </button>
+      </form>
+        
+        </div>
+
+
+    <input type="text" name="review" id="company-website"
+    class="block w-full flex-1 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+    placeholder="댓글을 입력해주세요">
+    <h1>댓글 : {{item.reviews}}</h1>
+  </div>
+  <!-- </section> -->
+</body>
+
+</html>
