@@ -73,9 +73,9 @@ def signin():
             set_access_cookies(response, access_token)
             return response
         else:
-            return render_template("signin.html", login_success=False)
+            return render_template("signin.html", login_success=False, items=db_items)
     else:
-        return render_template("signin.html")
+        return render_template("signin.html", items=db_items)
 
 
 @app.route("/logout")
@@ -135,6 +135,7 @@ def register():
             item_title = request.form["title"]
             item_text = request.form["text"]
             item_count = request.form["count"]
+            item_location=request.form["location"]
             item_image = request.files["myfile"]
             # 확장자 파싱
             item_image_format = item_image.filename.split(".")[1]
