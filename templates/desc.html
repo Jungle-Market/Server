@@ -70,12 +70,13 @@
   <div class="container px-6 py-10 mx-auto max-w-7xl my-20 w-1/2">
     <h1 class="text-3xl font-semibold text-gray-800 capitalize lg:text-4xl dark:text-white">{{item.title}}</h1>
     <div class="mt-5 lg:-mx-6 lg:flex lg:items-center">
-      <img class="object-8 lg:mx-6 lg:w-1/2 rounded-xl h-72 lg:h-96" src={{url_for('static',filename=item.url) }} alt="">
+      <img class="object-cover lg:mx-6 lg:w-1/2 rounded-xl h-72 lg:h-96" src={{url_for('static',filename=item.url) }} alt="">
       <div class="mt-6 lg:w-1/2 lg:mt-0 lg:mx-6 ">
         <div class="flex items-center mt-6">
-          <img class="border border-black object-cover object-center w-10 h-10 rounded-full" src={{ url_for('static',filename='img/profile_img.png') }}
-            alt="">
-
+          <!-- <img class="border border-black object-cover object-center w-10 h-10 rounded-full" src={{ url_for('static',filename='img/profile_img.png') }}
+            alt=""> -->
+          <div class="shadow flex items-center justify-center text-xl text-white bg-blue-800 object-cover object-center w-10 h-10 rounded-full">{{item.user.nickname[0]}}
+          </div>
           <div class="mx-4">
             <h1 class="text-2xl text-gray-900 dark:text-gray-100">{{item.user.nickname}}</h1>
           </div>
