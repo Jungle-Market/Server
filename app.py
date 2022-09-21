@@ -87,6 +87,7 @@ def register():
             item_title = request.form["title"]
             item_text = request.form["text"]
             item_count = request.form["count"]
+            item_location=request.form["location"]
             item_image = request.files["myfile"]
             #확장자 파싱
             item_image_format = item_image.filename.split('.')[1]
@@ -94,7 +95,7 @@ def register():
             #아이템 이미지 저장
             item_image.save(
                 "static/"+item_image_url)
-            item_data = {'title': item_title, 'user':{'id':session['id'],'nickname':session['nickname']},'count':int(item_count),'text': item_text,
+            item_data = {'title': item_title, 'user':{'id':session['id'],'nickname':session['nickname']},'count':int(item_count),'location':item_location,'text': item_text,
                     'url': item_image_url, "reviews": []}
             db.items.insert_one(item_data)
             return redirect(url_for('home'))
