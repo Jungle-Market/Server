@@ -71,23 +71,29 @@ def signup():
             market_db.users.insert_one({'id' : signup_id, 'pwd' : signup_pw, 'name' : signup_name, 'nickname' : signup_nickname})
             return render_template("signup.html", signup_success = True)
 
+
 @app.route('/register', methods=['POST', 'GET'])
-def file_upload():
-    current_time = str(time.time()).replace('.','')
+def register():
+    
     if request.method == 'POST':
-        uploaded_file = request.files["myfile"]
-        uploaded_title = request.form["title"]
-        uploaded_text = request.form["text"]
-        uploaded_count = request.form["count"]
-        uploaded_url = "img/{}.jpeg".format(uploaded_title+current_time)
-        uploaded_file.save(
-            "static/"+uploaded_url)
-        data = {'title': uploaded_title, 'user':"user",'count':int(uploaded_count),'text': uploaded_text,
-                'url': uploaded_url, "reviews": []}
-        db.items.insert_one(data)
-        return render_template('register.html')
+        current_time = str(time.time()).replace('.','')
+        
+        item_title = request.form["title"]
+        item_text = request.form["text"]
+        item_count = request.form["count"]
+        item_image = request.files["myfile"]
+        #확장자 파싱
+        item_image_format = item_image.filename.split('.')[1]
+        item_image_url = "img/items/{}".format(item_title+current_time + "." + item_image_format)
+        #아이템 이미지 저장
+        item_image.save(
+            "static/"+item_image_url)
+        item_data = {'title': item_title, 'user':"user",'count':int(item_count),'text': item_text,
+                'url': item_image_url, "reviews": []}
+        db.items.insert_one(item_data)
+        return redirect(url_for('home'))
     else:
-        return render_template('register.html', name="jinja_test")
+        return render_template('register.html')
 
 if __name__ == "__main__":
     app.run('0.0.0.0', port=5000, debug=True)
