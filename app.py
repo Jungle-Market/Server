@@ -58,6 +58,7 @@ def home():
 
 @app.route("/signin", methods=["POST", "GET"])
 def signin():
+    db_items = market_db.items.find().sort([("_id", -1)]).limit(3)
     if request.method == "POST":
         if request.cookies.get("access_token_cookie"):
             return redirect(url_for("home"))
@@ -88,7 +89,7 @@ def logout():
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.cookies.get("access_token_cookie"):
-        return redirect(url_for('home'))
+        return redirect(url_for("home"))
 
     if request.method == "GET":
         return render_template("signup.html")
@@ -135,7 +136,7 @@ def register():
             item_title = request.form["title"]
             item_text = request.form["text"]
             item_count = request.form["count"]
-            item_location=request.form["location"]
+            item_location = request.form["location"]
             item_image = request.files["myfile"]
             # 확장자 파싱
             item_image_format = item_image.filename.split(".")[1]
@@ -148,6 +149,7 @@ def register():
                 "title": item_title,
                 "user": {"id": session["id"], "nickname": session["nickname"]},
                 "count": int(item_count),
+                "location": item_location,
                 "text": item_text,
                 "url": item_image_url,
                 "reviews": [],
