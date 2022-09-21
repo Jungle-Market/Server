@@ -20,8 +20,11 @@ def main():
 
 @app.route("/home")
 def home():
-    db_items = market_db.items.find()
-    return render_template("home.html",items=db_items)
+    if "id" in session:
+        db_items = market_db.items.find()
+        return render_template("home.html",items=db_items)
+    else:
+        return redirect(url_for('signin'))
 
 
 @app.route('/signin', methods=['POST', 'GET'])
@@ -74,26 +77,28 @@ def signup():
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
-    
-    if request.method == 'POST':
-        current_time = str(time.time()).replace('.','')
-        
-        item_title = request.form["title"]
-        item_text = request.form["text"]
-        item_count = request.form["count"]
-        item_image = request.files["myfile"]
-        #확장자 파싱
-        item_image_format = item_image.filename.split('.')[1]
-        item_image_url = "img/items/{}".format(item_title+current_time + "." + item_image_format)
-        #아이템 이미지 저장
-        item_image.save(
-            "static/"+item_image_url)
-        item_data = {'title': item_title, 'user':"user",'count':int(item_count),'text': item_text,
-                'url': item_image_url, "reviews": []}
-        db.items.insert_one(item_data)
-        return redirect(url_for('home'))
+    if "id" in session:
+        if request.method == 'POST':
+            current_time = str(time.time()).replace('.','')
+            
+            item_title = request.form["title"]
+            item_text = request.form["text"]
+            item_count = request.form["count"]
+            item_image = request.files["myfile"]
+            #확장자 파싱
+            item_image_format = item_image.filename.split('.')[1]
+            item_image_url = "img/items/{}".format(item_title+current_time + "." + item_image_format)
+            #아이템 이미지 저장
+            item_image.save(
+                "static/"+item_image_url)
+            item_data = {'title': item_title, 'user':"user",'count':int(item_count),'text': item_text,
+                    'url': item_image_url, "reviews": []}
+            db.items.insert_one(item_data)
+            return redirect(url_for('home'))
+        else:
+            return render_template('register.html')
     else:
-        return render_template('register.html')
+        return redirect(url_for('signin'))
 
 if __name__ == "__main__":
     app.run('0.0.0.0', port=5000, debug=True)

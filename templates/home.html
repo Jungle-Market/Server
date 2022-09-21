@@ -6,6 +6,9 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body>
+    {% if session['id'] == "" %}
+    <script>alert("로그인 해주세요")</script>
+    {% endif %}
     <!-- This example requires Tailwind CSS v2.0+ -->
     <div class="relative">
       <nav class="fixed top-0 left-0 right-0 z-50 bg-cyan-300">
@@ -34,6 +37,12 @@
                     class="bg-red-500 text-white px-3 py-2 rounded-md text-sm font-semibold border-2 rounded-md border-red-200 transition active:bg-red-700 active:translate-y-1 active:translate-x-1"
                     aria-current="page"
                     >나눔하러 가기</a
+                  >
+                  <a
+                    href="logout"
+                    class=" absolute right-0 bg-green-500 text-white px-3 py-2 rounded-md text-sm font-semibold border-2 rounded-md border-red-200 transition active:bg-green-700 active:translate-y-1 active:translate-x-1"
+                    aria-current="page"
+                    >로그아웃</a
                   >
                 </div>
               </div>
