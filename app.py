@@ -1,6 +1,8 @@
 from flask import Flask, render_template, url_for, session
 from flask import request
 from flask import redirect
+from flask import flash
+from bson import ObjectId
 import re
 import time
 
@@ -91,7 +93,7 @@ def register():
             #아이템 이미지 저장
             item_image.save(
                 "static/"+item_image_url)
-            item_data = {'title': item_title, 'user':"user",'count':int(item_count),'text': item_text,
+            item_data = {'title': item_title, 'user':{'id':session['id'],'nickname':session['nickname']},'count':int(item_count),'text': item_text,
                     'url': item_image_url, "reviews": []}
             db.items.insert_one(item_data)
             return redirect(url_for('home'))
@@ -99,6 +101,28 @@ def register():
             return render_template('register.html')
     else:
         return redirect(url_for('signin'))
+
+@app.route('/desc/<string:id>', methods=['POST', 'GET'])
+def desc(id):
+    if request.method == 'POST':
+        selected_item = market_db.items.find_one({'_id': ObjectId(id)})
+        current_count = selected_item['count']
+        #잔여수량 확인
+        if current_count==0:
+            selected_title = selected_item['title']
+            flash("죄송합니다 {}의 재고가 모두 소진되었습니다.".format(selected_title))
+            return render_template("desc.html", item=selected_item)
+        else:
+            comment = request.form["comment"]
+            db.items.update_one({'_id': ObjectId(id)}, {'$push': {'reviews': {
+                                "nickname": session['nickname'], "text": comment}}},)
+            db.items.update_one({'_id': ObjectId(id)}, {
+                            '$set': {'count': current_count-1}})
+            selected_item = market_db.items.find_one({'_id': ObjectId(id)})
+            return render_template("desc.html", item=selected_item)
+    print(id)
+    selected_item = market_db.items.find_one({'_id': ObjectId(id)})
+    return render_template("desc.html",item=selected_item)
 
 if __name__ == "__main__":
     app.run('0.0.0.0', port=5000, debug=True)
