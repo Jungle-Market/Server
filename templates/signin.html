@@ -11,6 +11,7 @@
         $.ajax({
           type: "post",
           data: queryString,
+          url: "/signin",
           success: function (res) {
             if (res.login == true) {
               location.href="/home";
