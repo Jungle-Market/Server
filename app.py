@@ -14,10 +14,7 @@ import time
 from flask_jwt_extended import (
     JWTManager,
     create_access_token,
-    jwt_required,
-    get_jwt_identity,
     set_access_cookies,
-    decode_token,
 )
 
 from db import db
@@ -78,12 +75,13 @@ def signin():
     else:
         return render_template("signin.html", items=db_items)
 
-
-@app.route("/logout")
-def logout():
+@app.route("/signout")
+def signout():
     session.clear()
+    response = jsonify({'login':False})
+    response.delete_cookie('access_token_cookie','','127.0.0.1')
     # cookie jwt 삭제 구현 필요
-    return redirect(url_for("signin"))
+    return response
 
 
 @app.route("/signup", methods=["GET", "POST"])
