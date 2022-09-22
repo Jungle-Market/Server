@@ -1,0 +1,9 @@
+<div>
+  <h1>Jinja2 Template test</h1>
+  <p>Current name : {{ name }}</p>
+  <h2>Static File Test</h2>
+  <img src={{ url_for('static',filename='img/test.jpg') }}/>
+  <form method="get" action="main">
+    <input type="submit" name="route_main" value="go to homepage" />
+  </form>
+</div>
